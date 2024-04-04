@@ -72,15 +72,17 @@ export class AdminService {
       maxAge: 15 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
+
+    const updateAdmin = updatedAdmin[1][0];
+    
     try {
-      await this.mailService.sendMail(updatedAdmin[1][0]);
+      await this.mailService.sendMail(updatedAdmin);
     } catch (error) {
-      console.log(error);
       throw new BadRequestException("Xatni yuborishda xatolik");
     }
     const response = {
       message: "Admin registered",
-      admin: updatedAdmin[1][0],
+      admin: updateAdmin,
       tokens,
     };
     return response;
