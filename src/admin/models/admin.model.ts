@@ -10,6 +10,7 @@ interface IAdminCreateAttr {
   password: string;
   worker_id: number;
   hashed_password: string;
+  is_active:boolean
 }
 
 @Table({ tableName: "admin" })

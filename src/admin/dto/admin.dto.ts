@@ -6,7 +6,7 @@ import {
   IsString,
 } from "class-validator";
 
-export class FindUserDto {
+export class FindAdminDto {
   @IsOptional()
   @IsString()
   @IsNotEmpty()

@@ -44,10 +44,10 @@ export class AdminService {
   }
 
   async registration(createAdminDto: CreateAdminDto, res: Response) {
-    const user = await this.adminRepo.findOne({
+    const admin = await this.adminRepo.findOne({
       where: { email: createAdminDto.email },
     });
-    if (user) {
+    if (admin) {
       throw new BadRequestException("Bunday foydalanuvchi mavjud");
     }
     if (createAdminDto.password !== createAdminDto.confirm_password) {
@@ -79,8 +79,8 @@ export class AdminService {
       throw new BadRequestException("Xatni yuborishda xatolik");
     }
     const response = {
-      message: "User registered",
-      user: updatedAdmin[1][0],
+      message: "Admin registered",
+      admin: updatedAdmin[1][0],
       tokens,
     };
     return response;
@@ -102,7 +102,7 @@ export class AdminService {
     }
     const response = {
       message: "Admin activated successfully",
-      user: updatedAdmin[1][0].is_active,
+      admin: updatedAdmin[1][0].is_active,
     };
     return response;
   }
@@ -182,7 +182,7 @@ export class AdminService {
     }
     const tokens = await this.getTokens(admin);
     const hashed_refresh_token = await bcrypt.hash(tokens.refreshToken, 7);
-    const updatedUser = await this.adminRepo.update(
+    const updatedAdmin = await this.adminRepo.update(
       { hashed_refresh_token },
       {
         where: { id: admin.id },
@@ -194,8 +194,8 @@ export class AdminService {
       httpOnly: true,
     });
     const response = {
-      message: "User refreshed ",
-      user: updatedUser[1][0],
+      message: "Admin refreshed ",
+      admin: updatedAdmin[1][0],
       tokens,
     };
     return response;
