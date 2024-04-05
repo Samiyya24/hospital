@@ -34,7 +34,6 @@ export class AdminController {
     return this.adminService.login(loginAdminDto, res);
   }
   // --------------LOGOUT-----------------------
-  // @UseGuards(UserGuard)
   @HttpCode(200)
   @Post("logout")
   async logout(

@@ -9,4 +9,5 @@ export class UpdatePatientDto extends PartialType(CreatePatientDto) {
   address?: string;
   phone_number?: string;
   email?: string;
+  password?: string;
 }

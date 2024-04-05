@@ -7,7 +7,6 @@ import { JwtService } from '@nestjs/jwt';
 import { MailService } from '../mail/mail.service';
 import { Response } from 'express';
 import * as bcrypt from "bcrypt";
-import { Op } from "sequelize";
 import { v4 } from "uuid";
 import { LoginAdminDto } from './dto/login-admin.dto';
 
@@ -75,8 +74,9 @@ export class AdminService {
 
     const updateAdmin = updatedAdmin[1][0];
     
+
     try {
-      await this.mailService.sendMail(updatedAdmin);
+      await this.mailService.sendMail(updateAdmin);
     } catch (error) {
       throw new BadRequestException("Xatni yuborishda xatolik");
     }

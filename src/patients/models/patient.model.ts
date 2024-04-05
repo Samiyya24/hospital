@@ -50,4 +50,17 @@ export class Patient extends Model<Patient, IPatientCreateAttr> {
     type: DataType.STRING,
   })
   email: string;
+  @Column({
+    type: DataType.STRING,
+  })
+  hashed_password: string;
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  is_active: boolean;
+  @Column({
+    type: DataType.STRING,
+  })
+  hashed_refresh_token: string;
 }

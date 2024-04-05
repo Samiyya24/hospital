@@ -15,4 +15,6 @@ export class CreatePatientDto {
   phone_number: string;
   @IsString()
   email: string;
+  @IsString()
+  password: string;
 }
