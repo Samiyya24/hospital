@@ -19,8 +19,8 @@ export class Departmen extends Model<Departmen, IDepartmentCreateAttr> {
   id: number;
 
   @ApiProperty({
-    example: "Sobir",
-    description: "Foydalanuvchining logini",
+    example: "department name",
+    description: "Foydalanuvchining departmen_name",
   })
   @Column({
     type: DataType.STRING,

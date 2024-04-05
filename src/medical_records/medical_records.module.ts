@@ -3,11 +3,11 @@ import { MedicalRecordsService } from './medical_records.service';
 import { MedicalRecordsController } from './medical_records.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { MedicalRecord } from './models/medical_record.model';
-import { JwtService } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
   imports:[SequelizeModule.forFeature([MedicalRecord])],
   controllers: [MedicalRecordsController],
-  providers: [MedicalRecordsService, JwtService],
+  providers: [MedicalRecordsService, JwtModule],
 })
 export class MedicalRecordsModule {}

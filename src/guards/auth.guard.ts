@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 export class UserGuard implements CanActivate {
    constructor(private readonly jwtService: JwtService) {
    }
-
    canActivate(
       context: ExecutionContext,
    ): boolean | Promise<boolean> | Observable<boolean> {

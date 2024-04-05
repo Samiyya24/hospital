@@ -31,14 +31,29 @@ export class Appointment extends Model<Appointment, IAppointmentCreateAttr> {
     primaryKey: true,
   })
   id: number;
+
+  @ApiProperty({
+    example: "12.12.2023",
+    description: "Foydalanuvchining tashrif buyurgan kuni",
+  })
   @Column({
     type: DataType.STRING,
   })
   date_visit: string;
+
+  @ApiProperty({
+    example: "Sobir wdefrv edfrgb 2edfrg 2edfrg edfr 2",
+    description: "Foydalanuvchining diagnozi",
+  })
   @Column({
     type: DataType.STRING,
   })
   diagnosis: string;
+
+  @ApiProperty({
+    example: "Sobir wdefrv edfrgb 2edfrg 2edfrg edfr 2",
+    description: "Foydalanuvchining plani",
+  })
   @Column({
     type: DataType.STRING,
   })

@@ -6,17 +6,24 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function start() {
   try {
-const config = new DocumentBuilder()
-      .setTitle('hospital ')
-      .setDescription('Mini project hospital')
-      .setVersion('1.0')
-      .addTag('NodeJs, NestJs,Postgress, swagger, Sequalize, JWT, mailer')
-      .build();
-      const PORT = process.env.PORT || 3333;
+    const PORT = process.env.PORT || 3333;
+
     const app = await NestFactory.create(AppModule);
-    const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api/docs', app, document);
     app.setGlobalPrefix('api')
+
+     const config = new DocumentBuilder()
+       .setTitle("myTicket Project")
+       .setDescription("myTicket REST API")
+       .setVersion("1.0")
+       .addTag("NESTJS")
+       .addTag("swagger")
+       .addTag("Validation")
+       .addTag("Sequelize")
+       .build();
+
+     const document = SwaggerModule.createDocument(app, config);
+     SwaggerModule.setup("api/docs", app, document);
+     
     app.use(cookieParser());
     app.useGlobalPipes(new ValidationPipe());
 

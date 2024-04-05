@@ -13,7 +13,7 @@ import {
 import { AdminService } from "./admin.service";
 import { CreateAdminDto } from "./dto/create-admin.dto";
 import { UpdateAdminDto } from "./dto/update-admin.dto";
-import { ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Admin } from "./models/admin.model";
 import { Response } from "express";
 import { LoginAdminDto } from "./dto/login-admin.dto";
@@ -21,10 +21,13 @@ import { CookieGetter } from "../decorators/cookie_getter.decorator";
 import { UserGuard } from "../guards/auth.guard";
 import { AdminGuard } from "../guards/admin.guard";
 import { CreatorGuards } from "../guards/creator.guard";
+import { SelfAdminGuard } from "../guards/self.admin.guard";
 
 @Controller("admin")
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
+
+  @ApiTags("REGISTRATION")
 
   // ----------------------REGISTRATION------------------------------------
   @UseGuards(CreatorGuards)
@@ -37,6 +40,7 @@ export class AdminController {
   ) {
     return this.adminService.registration(createAdminDto, res);
   }
+  @ApiTags("LOGIN")
 
   // ---------------LOGIN-------------------------
   @HttpCode(200)
@@ -47,7 +51,9 @@ export class AdminController {
   ) {
     return this.adminService.login(loginAdminDto, res);
   }
+
   // --------------LOGOUT-----------------------
+  @ApiTags("LOGOUT")
   @HttpCode(200)
   @Post("logout")
   async logout(
@@ -57,6 +63,7 @@ export class AdminController {
     return this.adminService.logout(refreshToken, res);
   }
 
+  @ApiTags("CERATE ADMIN")
   @Post()
   @UseGuards(UserGuard)
   create(@Body() createAdminDto: CreateAdminDto) {
@@ -64,31 +71,37 @@ export class AdminController {
   }
 
   // ----------------------ACTIVATE------------------------------------
+  @ApiTags("ACTIVATE")
   @Get("activate/:link")
   async activate(@Param("link") link: string) {
     return this.adminService.activate(link);
   }
 
   // ----------------------FINDALL------------------------------------
-  @UseGuards(UserGuard)
+  @ApiTags("FINDALL")
+  @UseGuards(CreatorGuards)
   @Get()
   findAll() {
     return this.adminService.findAll();
   }
 
-  @UseGuards(UserGuard)
+  @ApiTags("FindOne admin")
+  @UseGuards(CreatorGuards)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.adminService.findOne(+id);
   }
 
-  @UseGuards(AdminGuard)
+  @ApiTags("Update admin")
+  @UseGuards(CreatorGuards)
+  @UseGuards(SelfAdminGuard)
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateAdminDto: UpdateAdminDto) {
     return this.adminService.update(+id, updateAdminDto);
   }
 
-  @UseGuards(AdminGuard)
+  @ApiTags("Delete admin")
+  @UseGuards(CreatorGuards)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.adminService.remove(+id);

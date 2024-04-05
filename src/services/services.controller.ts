@@ -11,25 +11,24 @@ import {
 import { ServicesService } from "./services.service";
 import { CreateServiceDto } from "./dto/create-service.dto";
 import { UpdateServiceDto } from "./dto/update-service.dto";
-import { UserGuard } from "../guards/auth.guard";
 import { AdminGuard } from "../guards/admin.guard";
 
 @Controller("services")
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
+  @UseGuards(AdminGuard)
   @Post()
   create(@Body() createServiceDto: CreateServiceDto) {
     return this.servicesService.create(createServiceDto);
   }
 
-  @UseGuards(UserGuard)
+ 
   @Get()
   findAll() {
     return this.servicesService.findAll();
   }
 
-  @UseGuards(UserGuard)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.servicesService.findOne(+id);

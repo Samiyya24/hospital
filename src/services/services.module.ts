@@ -3,11 +3,11 @@ import { ServicesService } from './services.service';
 import { ServicesController } from './services.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Service } from './models/service.model';
-import { JwtService } from '@nestjs/jwt';
+import { JwtModule,  } from '@nestjs/jwt';
 
 @Module({
   imports:[SequelizeModule.forFeature([Service])],
   controllers: [ServicesController],
-  providers: [ServicesService, JwtService],
+  providers: [ServicesService, JwtModule],
 })
 export class ServicesModule {}

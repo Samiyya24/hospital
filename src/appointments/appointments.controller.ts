@@ -13,28 +13,38 @@ import { CreateAppointmentDto } from "./dto/create-appointment.dto";
 import { UpdateAppointmentDto } from "./dto/update-appointment.dto";
 import { UserGuard } from "../guards/auth.guard";
 import { AdminGuard } from "../guards/admin.guard";
+import { ApiTags } from "@nestjs/swagger";
+import { DoctorGuard } from "../guards/doctor.guard";
 
 @Controller("appointments")
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
+  @ApiTags("Create admin")
+  @UseGuards(DoctorGuard)
+  @UseGuards(AdminGuard)
+  @UseGuards()
   @Post()
   create(@Body() createAppointmentDto: CreateAppointmentDto) {
     return this.appointmentsService.create(createAppointmentDto);
   }
 
-  @UseGuards(UserGuard)
+  @ApiTags("Get all Appointments")
+  @UseGuards(AdminGuard)
   @Get()
   findAll() {
     return this.appointmentsService.findAll();
   }
 
-  @UseGuards(UserGuard)
+  @ApiTags("FindOne Appointment")
+  @UseGuards(AdminGuard)
+  @UseGuards(DoctorGuard)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.appointmentsService.findOne(+id);
   }
 
+  @ApiTags("Update appointments")
   @UseGuards(AdminGuard)
   @Patch(":id")
   update(
@@ -44,6 +54,7 @@ export class AppointmentsController {
     return this.appointmentsService.update(+id, updateAppointmentDto);
   }
 
+  @ApiTags("Delete appointments")
   @UseGuards(AdminGuard)
   @Delete(":id")
   remove(@Param("id") id: string) {

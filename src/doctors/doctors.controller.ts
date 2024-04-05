@@ -20,6 +20,7 @@ import { LoginDoctorDto } from "./dto/login-doctor.dto";
 import { Doctor } from "./models/doctor.model";
 import { Response } from "express";
 import { AdminGuard } from "../guards/admin.guard";
+import { SelfDoctorGuard } from "../guards/self.doctor.guard";
 
 @Controller("doctors")
 export class DoctorsController {
@@ -27,6 +28,8 @@ export class DoctorsController {
 
   // ----------------------REGISTRATION------------------------------------
 
+  @UseGuards(AdminGuard)
+  @UseGuards(SelfDoctorGuard)
   @ApiOperation({ summary: "register doctor" })
   @ApiResponse({ status: 201, type: Doctor })
   @Post("signUp")
@@ -61,18 +64,17 @@ export class DoctorsController {
     return this.doctorsService.activate(link);
   }
 
+  @UseGuards(AdminGuard)
   @Post()
   create(@Body() createDoctorDto: CreateDoctorDto) {
     return this.doctorsService.create(createDoctorDto);
   }
 
-  @UseGuards(UserGuard)
   @Get()
   findAll() {
     return this.doctorsService.findAll();
   }
 
-  @UseGuards(UserGuard)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.doctorsService.findOne(+id);
