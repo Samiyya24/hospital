@@ -9,6 +9,7 @@ interface IPatientCreateAttr {
   address: string;
   phone_number: string;
   email: string;
+  hashed_password: string;
 }
 @Table({ tableName: "patient" })
 export class Patient extends Model<Patient, IPatientCreateAttr> {
@@ -63,4 +64,8 @@ export class Patient extends Model<Patient, IPatientCreateAttr> {
     type: DataType.STRING,
   })
   hashed_refresh_token: string;
+  @Column({
+    type: DataType.STRING,
+  })
+  activation_link: string;
 }

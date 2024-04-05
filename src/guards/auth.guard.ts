@@ -3,9 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class UserGuard extends CanActivate {
+export class UserGuard implements CanActivate {
    constructor(private readonly jwtService: JwtService) {
-      super();
    }
 
    canActivate(

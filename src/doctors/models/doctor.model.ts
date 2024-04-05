@@ -12,6 +12,8 @@ interface IDoctorCreateAttr {
   is_active: boolean;
   room: string;
   password: string;
+  hashed_refresh_token: string;
+  hashed_password: string;
 }
 @Table({ tableName: "doctors" })
 export class Doctor extends Model<Doctor, IDoctorCreateAttr> {
@@ -70,4 +72,16 @@ export class Doctor extends Model<Doctor, IDoctorCreateAttr> {
     type: DataType.STRING,
   })
   password: string;
+  @Column({
+    type: DataType.STRING,
+  })
+  activation_link: string;
+  @Column({
+    type: DataType.STRING,
+  })
+  hashed_refresh_token: string;
+  @Column({
+    type: DataType.STRING,
+  })
+  hashed_password: string;
 }

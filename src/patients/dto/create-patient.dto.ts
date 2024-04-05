@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreatePatientDto {
   @IsString()
@@ -17,4 +17,7 @@ export class CreatePatientDto {
   email: string;
   @IsString()
   password: string;
+  @IsString()
+  @IsNotEmpty()
+  confirm_password: string;
 }

@@ -23,4 +23,7 @@ export class CreateDoctorDto {
   room: string;
   @IsString()
   password: string;
+  @IsString()
+  @IsNotEmpty()
+  confirm_password: string;
 }

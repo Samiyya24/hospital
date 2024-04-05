@@ -7,6 +7,7 @@ import { Admin } from './models/admin.model';
 import { Response } from 'express';
 import { LoginAdminDto } from './dto/login-admin.dto';
 import { CookieGetter } from '../decorators/cookie_getter.decorator';
+import { UserGuard } from '../guards/auth.guard';
 
 @Controller("admin")
 export class AdminController {
@@ -44,6 +45,7 @@ export class AdminController {
   }
 
   @Post()
+   @UseGuards(UserGuard)
   create(@Body() createAdminDto: CreateAdminDto) {
     return this.adminService.create(createAdminDto);
   }
@@ -57,21 +59,25 @@ export class AdminController {
   // ----------------------FINDALL------------------------------------
 
   @Get()
+   @UseGuards(UserGuard)
   findAll() {
     return this.adminService.findAll();
   }
 
   @Get(":id")
+   @UseGuards(UserGuard)
   findOne(@Param("id") id: string) {
     return this.adminService.findOne(+id);
   }
 
   @Patch(":id")
+   @UseGuards(UserGuard)
   update(@Param("id") id: string, @Body() updateAdminDto: UpdateAdminDto) {
     return this.adminService.update(+id, updateAdminDto);
   }
 
   @Delete(":id")
+   @UseGuards(UserGuard)
   remove(@Param("id") id: string) {
     return this.adminService.remove(+id);
   }

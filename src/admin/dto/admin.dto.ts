@@ -20,9 +20,7 @@ export class FindAdminDto {
   @IsEmail()
   email?: string;
 
-//   @IsOptional()
-//   @IsString()
-//   tg_link?: string;
+
 }
 
 // @IsDateString()
