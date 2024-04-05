@@ -68,7 +68,7 @@ export class Admin extends Model<Admin, IAdminCreateAttr> {
     type: DataType.BOOLEAN,
     defaultValue: false,
   })
-  is_owner: boolean;
+  is_creater: boolean;
   @Column({
     type: DataType.BOOLEAN,
     defaultValue: false,

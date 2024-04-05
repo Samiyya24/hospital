@@ -1,12 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { Appointment } from "../../appointments/models/appointment.model";
 
 interface IServiceCreateAttr {
   service_name: string;
   description: string;
   price: string;
 }
-@Table({tableName:'service'})
+@Table({ tableName: "service" })
 export class Service extends Model<Service, IServiceCreateAttr> {
   @ApiProperty({
     example: 1,
@@ -30,4 +31,7 @@ export class Service extends Model<Service, IServiceCreateAttr> {
     type: DataType.STRING,
   })
   price: string;
+
+  @HasMany(() => Appointment)
+  appointment: Appointment[];
 }

@@ -1,13 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpCode, Res } from '@nestjs/common';
-import { DoctorsService } from './doctors.service';
-import { CreateDoctorDto } from './dto/create-doctor.dto';
-import { UpdateDoctorDto } from './dto/update-doctor.dto';
-import { UserGuard } from 'src/guards/auth.guard';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CookieGetter } from '../decorators/cookie_getter.decorator';
-import { LoginDoctorDto } from './dto/login-doctor.dto';
-import { Doctor } from './models/doctor.model';
-import { Response } from 'express';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  HttpCode,
+  Res,
+} from "@nestjs/common";
+import { DoctorsService } from "./doctors.service";
+import { CreateDoctorDto } from "./dto/create-doctor.dto";
+import { UpdateDoctorDto } from "./dto/update-doctor.dto";
+import { UserGuard } from "src/guards/auth.guard";
+import { ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { CookieGetter } from "../decorators/cookie_getter.decorator";
+import { LoginDoctorDto } from "./dto/login-doctor.dto";
+import { Doctor } from "./models/doctor.model";
+import { Response } from "express";
+import { AdminGuard } from "../guards/admin.guard";
 
 @Controller("doctors")
 export class DoctorsController {
@@ -50,31 +62,30 @@ export class DoctorsController {
   }
 
   @Post()
-  @UseGuards(UserGuard)
   create(@Body() createDoctorDto: CreateDoctorDto) {
     return this.doctorsService.create(createDoctorDto);
   }
 
-  @Get()
   @UseGuards(UserGuard)
+  @Get()
   findAll() {
     return this.doctorsService.findAll();
   }
 
-  @Get(":id")
   @UseGuards(UserGuard)
+  @Get(":id")
   findOne(@Param("id") id: string) {
     return this.doctorsService.findOne(+id);
   }
 
+  @UseGuards(AdminGuard)
   @Patch(":id")
-  @UseGuards(UserGuard)
   update(@Param("id") id: string, @Body() updateDoctorDto: UpdateDoctorDto) {
     return this.doctorsService.update(+id, updateDoctorDto);
   }
 
+  @UseGuards(AdminGuard)
   @Delete(":id")
-  @UseGuards(UserGuard)
   remove(@Param("id") id: string) {
     return this.doctorsService.remove(+id);
   }

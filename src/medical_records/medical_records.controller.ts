@@ -1,40 +1,53 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { MedicalRecordsService } from './medical_records.service';
-import { CreateMedicalRecordDto } from './dto/create-medical_record.dto';
-import { UpdateMedicalRecordDto } from './dto/update-medical_record.dto';
-import { UserGuard } from '../guards/auth.guard';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from "@nestjs/common";
+import { MedicalRecordsService } from "./medical_records.service";
+import { CreateMedicalRecordDto } from "./dto/create-medical_record.dto";
+import { UpdateMedicalRecordDto } from "./dto/update-medical_record.dto";
+import { UserGuard } from "../guards/auth.guard";
+import { AdminGuard } from "../guards/admin.guard";
 
-@Controller('medical-records')
+@Controller("medical_records")
 export class MedicalRecordsController {
   constructor(private readonly medicalRecordsService: MedicalRecordsService) {}
 
   @Post()
-   @UseGuards(UserGuard)
+  // @UseGuards(UserGuard)
   create(@Body() createMedicalRecordDto: CreateMedicalRecordDto) {
     return this.medicalRecordsService.create(createMedicalRecordDto);
   }
 
+  // @UseGuards(UserGuard)
   @Get()
-   @UseGuards(UserGuard)
   findAll() {
     return this.medicalRecordsService.findAll();
   }
 
-  @Get(':id')
-   @UseGuards(UserGuard)
-  findOne(@Param('id') id: string) {
+  @UseGuards(UserGuard)
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.medicalRecordsService.findOne(+id);
   }
 
-  @Patch(':id')
-   @UseGuards(UserGuard)
-  update(@Param('id') id: string, @Body() updateMedicalRecordDto: UpdateMedicalRecordDto) {
+  @UseGuards(AdminGuard)
+  @Patch(":id")
+  update(
+    @Param("id") id: string,
+    @Body() updateMedicalRecordDto: UpdateMedicalRecordDto
+  ) {
     return this.medicalRecordsService.update(+id, updateMedicalRecordDto);
   }
 
-  @Delete(':id')
-   @UseGuards(UserGuard)
-  remove(@Param('id') id: string) {
+  @UseGuards(AdminGuard)
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.medicalRecordsService.remove(+id);
   }
 }

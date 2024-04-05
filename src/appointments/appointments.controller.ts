@@ -1,40 +1,52 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { AppointmentsService } from './appointments.service';
-import { CreateAppointmentDto } from './dto/create-appointment.dto';
-import { UpdateAppointmentDto } from './dto/update-appointment.dto';
-import { UserGuard } from '../guards/auth.guard';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from "@nestjs/common";
+import { AppointmentsService } from "./appointments.service";
+import { CreateAppointmentDto } from "./dto/create-appointment.dto";
+import { UpdateAppointmentDto } from "./dto/update-appointment.dto";
+import { UserGuard } from "../guards/auth.guard";
+import { AdminGuard } from "../guards/admin.guard";
 
-@Controller('appointments')
+@Controller("appointments")
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
   @Post()
-   @UseGuards(UserGuard)
   create(@Body() createAppointmentDto: CreateAppointmentDto) {
     return this.appointmentsService.create(createAppointmentDto);
   }
 
+  @UseGuards(UserGuard)
   @Get()
-   @UseGuards(UserGuard)
   findAll() {
     return this.appointmentsService.findAll();
   }
 
-  @Get(':id')
-   @UseGuards(UserGuard)
-  findOne(@Param('id') id: string) {
+  @UseGuards(UserGuard)
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.appointmentsService.findOne(+id);
   }
 
-  @Patch(':id')
-   @UseGuards(UserGuard)
-  update(@Param('id') id: string, @Body() updateAppointmentDto: UpdateAppointmentDto) {
+  @UseGuards(AdminGuard)
+  @Patch(":id")
+  update(
+    @Param("id") id: string,
+    @Body() updateAppointmentDto: UpdateAppointmentDto
+  ) {
     return this.appointmentsService.update(+id, updateAppointmentDto);
   }
 
-  @Delete(':id')
-   @UseGuards(UserGuard)
-  remove(@Param('id') id: string) {
+  @UseGuards(AdminGuard)
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.appointmentsService.remove(+id);
   }
 }

@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { Doctor } from "../../doctors/models/doctor.model";
 
 interface IDepartmentCreateAttr {
   departmen_name: string;
@@ -25,4 +26,7 @@ export class Departmen extends Model<Departmen, IDepartmentCreateAttr> {
     type: DataType.STRING,
   })
   departmen_name: string;
+
+  @HasMany(() => Doctor)
+  appointment: Doctor[];
 }

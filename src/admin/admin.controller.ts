@@ -1,20 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode, UseGuards } from '@nestjs/common';
-import { AdminService } from './admin.service';
-import { CreateAdminDto } from './dto/create-admin.dto';
-import { UpdateAdminDto } from './dto/update-admin.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { Admin } from './models/admin.model';
-import { Response } from 'express';
-import { LoginAdminDto } from './dto/login-admin.dto';
-import { CookieGetter } from '../decorators/cookie_getter.decorator';
-import { UserGuard } from '../guards/auth.guard';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Res,
+  HttpCode,
+  UseGuards,
+} from "@nestjs/common";
+import { AdminService } from "./admin.service";
+import { CreateAdminDto } from "./dto/create-admin.dto";
+import { UpdateAdminDto } from "./dto/update-admin.dto";
+import { ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { Admin } from "./models/admin.model";
+import { Response } from "express";
+import { LoginAdminDto } from "./dto/login-admin.dto";
+import { CookieGetter } from "../decorators/cookie_getter.decorator";
+import { UserGuard } from "../guards/auth.guard";
+import { AdminGuard } from "../guards/admin.guard";
+import { CreatorGuards } from "../guards/creator.guard";
 
 @Controller("admin")
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   // ----------------------REGISTRATION------------------------------------
-
+  @UseGuards(CreatorGuards)
   @ApiOperation({ summary: "register admin" })
   @ApiResponse({ status: 201, type: Admin })
   @Post("signUp")
@@ -45,7 +58,7 @@ export class AdminController {
   }
 
   @Post()
-   @UseGuards(UserGuard)
+  @UseGuards(UserGuard)
   create(@Body() createAdminDto: CreateAdminDto) {
     return this.adminService.create(createAdminDto);
   }
@@ -57,27 +70,26 @@ export class AdminController {
   }
 
   // ----------------------FINDALL------------------------------------
-
+  @UseGuards(UserGuard)
   @Get()
-   @UseGuards(UserGuard)
   findAll() {
     return this.adminService.findAll();
   }
 
+  @UseGuards(UserGuard)
   @Get(":id")
-   @UseGuards(UserGuard)
   findOne(@Param("id") id: string) {
     return this.adminService.findOne(+id);
   }
 
+  @UseGuards(AdminGuard)
   @Patch(":id")
-   @UseGuards(UserGuard)
   update(@Param("id") id: string, @Body() updateAdminDto: UpdateAdminDto) {
     return this.adminService.update(+id, updateAdminDto);
   }
 
+  @UseGuards(AdminGuard)
   @Delete(":id")
-   @UseGuards(UserGuard)
   remove(@Param("id") id: string) {
     return this.adminService.remove(+id);
   }

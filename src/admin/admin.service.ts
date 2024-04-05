@@ -24,7 +24,7 @@ export class AdminService {
     const payload = {
       id: admin.id,
       is_active: admin.is_active,
-      is_owner: admin.is_owner,
+      is_creater: admin.is_creater,
     };
     const [accsessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {

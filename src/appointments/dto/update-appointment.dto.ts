@@ -4,7 +4,7 @@ import { CreateAppointmentDto } from './create-appointment.dto';
 export class UpdateAppointmentDto extends PartialType(CreateAppointmentDto) {
   patient_id?: number;
   doctor_id?: number;
-  date_visit?: number;
+  date_visit?: string;
   diagnosis?: string;
   treatment_plan?: string;
 }
