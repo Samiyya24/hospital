@@ -19,7 +19,6 @@ import { Response } from "express";
 import { LoginAdminDto } from "./dto/login-admin.dto";
 import { CookieGetter } from "../decorators/cookie_getter.decorator";
 import { UserGuard } from "../guards/auth.guard";
-import { AdminGuard } from "../guards/admin.guard";
 import { CreatorGuards } from "../guards/creator.guard";
 import { SelfAdminGuard } from "../guards/self.admin.guard";
 

@@ -11,7 +11,6 @@ import {
 import { AppointmentsService } from "./appointments.service";
 import { CreateAppointmentDto } from "./dto/create-appointment.dto";
 import { UpdateAppointmentDto } from "./dto/update-appointment.dto";
-import { UserGuard } from "../guards/auth.guard";
 import { AdminGuard } from "../guards/admin.guard";
 import { ApiTags } from "@nestjs/swagger";
 import { DoctorGuard } from "../guards/doctor.guard";
